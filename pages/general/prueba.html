@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detección de Movimientos en Video</title>
+    <style>
+        #instructions {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        #video {
+            width: 100%;
+            max-width: 720px;
+            border: 1px solid black;
+        }
+        button {
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+</head>
+<body>
+    <h1>Detección de Movimientos en Video</h1>
+    <div id="instructions">Por favor, mueve tu cabeza a la izquierda</div>
+    <video id="video" autoplay playsinline></video>
+    <button id="startButton">Iniciar Detección</button>
+    <p id="result"></p>
+
+    <script>
+        let model;
+        let video;
+        const instructions = ["Mira a la izquierda", "Mira a la derecha", "Mira arriba", "Mira abajo"];
+        let currentInstructionIndex = 0;
+
+        async function setupCamera() {
+            video = document.getElementById('video');
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: 'user',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                });
+                video.srcObject = stream;
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = () => {
+                        resolve(video.play());
+                    };
+                });
+            } catch (error) {
+                console.error("Error al acceder a la cámara: ", error);
+            }
+        }
+
+        async function loadModel() {
+            model = await blazeface.load();
+            console.log('Modelo cargado');
+        }
+
+        function detectMovements(predictions, movements, movementThreshold) {
+            const x = predictions[0].topLeft[0];
+            const y = predictions[0].topLeft[1];
+
+            if (movements.lastX !== undefined && movements.lastY !== undefined) {
+                if (movements.lastX - x > movementThreshold && !movements.left) {
+                    movements.left = true;
+                    return 'left';
+                } else if (x - movements.lastX > movementThreshold && !movements.right) {
+                    movements.right = true;
+                    return 'right';
+                } else if (movements.lastY - y > movementThreshold && !movements.up) {
+                    movements.up = true;
+                    return 'up';
+                } else if (y - movements.lastY > movementThreshold && !movements.down) {
+                    movements.down = true;
+                    return 'down';
+                }
+            }
+
+            movements.lastX = x;
+            movements.lastY = y;
+            return null;
+        }
+
+        async function detect() {
+            const movements = { left: false, right: false, up: false, down: false };
+            const movementThreshold = 10;
+            const correctOrder = ['left', 'right', 'up', 'down'];
+            let detectedOrder = [];
+
+            async function processFrame() {
+                if (video.paused || video.ended) return;
+
+                const predictions = await model.estimateFaces(video, false);
+                if (predictions.length > 0) {
+                    const detected = detectMovements(predictions, movements, movementThreshold);
+                    if (detected && detectedOrder.length < correctOrder.length && !detectedOrder.includes(detected)) {
+                        detectedOrder.push(detected);
+                        currentInstructionIndex++;
+                        if (currentInstructionIndex < instructions.length) {
+                            document.getElementById('instructions').innerText = instructions[currentInstructionIndex];
+                        }
+                    }
+
+                    console.log(`Movements detected: ${detectedOrder.join(', ')}`);
+
+                    if (JSON.stringify(detectedOrder) === JSON.stringify(correctOrder)) {
+                        document.getElementById('result').innerText = '¡Rostro real detectado con movimientos!';
+                        console.log('¡Rostro real detectado con movimientos!');
+                        return;
+                    }
+                }
+
+                requestAnimationFrame(processFrame);
+            }
+
+            processFrame();
+        }
+
+        document.getElementById('startButton').addEventListener('click', async () => {
+            await setupCamera();
+            await loadModel();
+            document.getElementById('instructions').innerText = instructions[currentInstructionIndex];
+            detect();
+        });
+    </script>
+</body>
+</html>

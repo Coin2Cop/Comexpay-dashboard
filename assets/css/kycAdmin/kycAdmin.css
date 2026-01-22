@@ -1,0 +1,42 @@
+.inline{
+    display: inline;
+    font-size: 16px;
+}
+.tamaño_tit{
+    font-size: 18px;
+}
+.fondo_card{
+    background-color: #F4F7FF;
+    border-radius: 15px;
+}
+.modal-header{
+    background-color: #F4F7FF;
+}
+#detalles_cedLabel{
+    font-weight: 100 !important;
+    text-align: center !important;
+    width: 100%;
+}
+.modal-body{
+    padding-top: 20px;
+}
+.img_redon{
+    border-radius: 15px;
+}
+.zoom-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%; /* Ajusta según el diseño */
+    height: 160px; /* Altura fija del contenedor */
+    cursor: zoom-in; /* Cambia el puntero a lupa */
+}
+
+/* Imagen con zoom */
+.zoom-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Imagen ajustada al contenedor inicialmente */
+    transition: transform 0.1s ease-out; /* Suavidad del movimiento */
+    transform-origin: center; /* Punto de inicio del zoom */
+}

@@ -1,0 +1,145 @@
+body{font-family: Poppins !important}.ps{overflow:hidden!important;overflow-anchor:none;-ms-overflow-style:none;touch-action:auto;-ms-touch-action:auto}.ps__rail-x{display:none;opacity:0;transition:background-color .2s linear,opacity .2s linear;-webkit-transition:background-color .2s linear,opacity .2s linear;height:15px;bottom:0;position:absolute}.ps__rail-y{display:none;opacity:0;transition:background-color .2s linear,opacity .2s linear;-webkit-transition:background-color .2s linear,opacity .2s linear;width:15px;right:0;position:absolute}.ps--active-x>.ps__rail-x,.ps--active-y>.ps__rail-y{display:block;background-color:transparent}.ps--focus>.ps__rail-x,.ps--focus>.ps__rail-y,.ps--scrolling-x>.ps__rail-x,.ps--scrolling-y>.ps__rail-y,.ps:hover>.ps__rail-x,.ps:hover>.ps__rail-y{opacity:.6}.ps .ps__rail-x.ps--clicking,.ps .ps__rail-x:focus,.ps .ps__rail-x:hover,.ps .ps__rail-y.ps--clicking,.ps .ps__rail-y:focus,.ps .ps__rail-y:hover{background-color:#eee;opacity:.9}.ps__thumb-x{background-color:#aaa;border-radius:6px;transition:background-color .2s linear,height .2s ease-in-out;-webkit-transition:background-color .2s linear,height .2s ease-in-out;height:6px;bottom:2px;position:absolute}.ps__thumb-y{background-color:#aaa;border-radius:6px;transition:background-color .2s linear,width .2s ease-in-out;-webkit-transition:background-color .2s linear,width .2s ease-in-out;width:6px;right:2px;position:absolute}.ps__rail-x.ps--clicking .ps__thumb-x,.ps__rail-x:focus>.ps__thumb-x,.ps__rail-x:hover>.ps__thumb-x{background-color:#999;height:11px}.ps__rail-y.ps--clicking .ps__thumb-y,.ps__rail-y:focus>.ps__thumb-y,.ps__rail-y:hover>.ps__thumb-y{background-color:#999;width:11px}@supports (-ms-overflow-style:none){.ps{overflow:auto!important}}@media screen and (-ms-high-contrast:active),(-ms-high-contrast:none){.ps{overflow:auto!important}}/* --- Contenedor / tipografía --- */
+/* ===== Sidebar vertical — Comexpay v3 ===== */
+
+/* Tokens básicos (usa tu --cx-brand si ya la tienes) */
+:root{
+  --sb-brand: var(--cx-brand, #742ACE);
+  --sb-text: #0f172a;
+  --sb-muted: #6b7280;
+  --sb-rail: #e5e7eb;
+  --sb-bg: #fff;
+}
+
+/* Contenedor */
+.sidebar-body{
+  background: var(--sb-bg);
+  color: var(--sb-text);
+  padding: 10px 12px;                /* respiración general */
+}
+
+/* Título "Menu" */
+.sidebar-body .nav-category{
+  text-transform: uppercase;
+  letter-spacing:.08em;
+  font-size:.75rem;
+  color: var(--sb-muted);
+  padding: 12px 12px 8px;
+  margin: 0;
+}
+
+/* Reset listas */
+.sidebar-body .nav,
+.sidebar-body .sub-menu{
+  list-style:none; margin:0; padding:0;
+}
+.sidebar-body .nav > .nav-item + .nav-item{ margin-top: 2px; }
+
+/* Link base (icono | texto | caret) */
+.sidebar-body .nav-link{
+  display: grid;
+  grid-template-columns: 22px 1fr 16px;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 38px;
+  padding: 10px 14px;
+  margin-right: 8px;                 /* ➜ deja aire a la derecha */
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+  background: transparent;
+  position: relative;
+  transition: background .15s ease, color .15s ease;
+}
+.sidebar-body .nav-link:hover{
+  background: color-mix(in oklab, var(--sb-brand) 6%, transparent);
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  transition: padding .3s ease, color .3s ease;
+}
+
+/* Icono y caret */
+.sidebar-body .link-icon{ opacity:.9; }
+.sidebar-body .link-arrow{
+  width: 16px; height: 16px;
+  justify-self: end;
+  opacity:.6;
+  transform: rotate(-90deg);
+  transition: transform .18s ease, opacity .18s ease;
+}
+.sidebar-body .nav-link[aria-expanded="true"] .link-arrow{
+  transform: rotate(0deg);
+  opacity:.9;
+}
+
+/* Activo (nivel 1 / padre) */
+.sidebar-body .nav-item.active > .nav-link,
+.sidebar-body .nav-link.active:not([href="#"]),
+.sidebar-body .nav-link[aria-current="page"]{
+  background: color-mix(in oklab, var(--sb-brand) 12%, transparent);
+  color: var(--sb-brand);
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+/* Rail del activo más cerca del texto (no tan pegado al borde) */
+.sidebar-body .nav-item.active > .nav-link::before,
+.sidebar-body .nav-link[aria-current="page"]::before{
+  content:"";
+  position: absolute;
+  left: 6px;                          /* ➜ ajusta lo cerca que quieras */
+  top: 6px; bottom: 6px;
+  width: 3px; border-radius: 2px;
+  background: var(--sb-brand);
+}
+
+/* Submenú: guía vertical + separación del pill padre */
+.sidebar-body .sub-menu{
+  margin: 4px 0 8px 14px;
+  padding-left: 14px;                 /* espacio entre riel y pills hijos */
+  border-left: 1px solid var(--sb-rail);
+}
+
+/* Enlaces del submenú (punto + texto) */
+.sidebar-body .sub-menu .nav-link{
+  grid-template-columns: 14px 1fr;    /* puntito | texto */
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  margin-right: 8px;                  /* aire a la derecha también en hijos */
+  font-size: .95rem;
+}
+
+/* Puntito: cerca de la guía (ligero desplazamiento hacia el riel) */
+.sidebar-body .sub-menu .nav-link::before{
+  content:"";
+  width: 6px; height: 6px; border-radius:50%;
+  border: 2px solid #cbd5e1; background:#fff;
+  justify-self: center;               /* centrado en su columna */
+  transform: translateX(-2px);        /* ➜ acércalo un pelín al riel */
+}
+
+/* Hover en hijos (muy suave) */
+.sidebar-body .sub-menu .nav-link:hover{
+  background: color-mix(in oklab, var(--sb-brand) 5%, transparent);
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+}
+
+/* Hijo activo: pill suave + punto lleno */
+.sidebar-body .sub-menu .nav-link.active,
+.sidebar-body .sub-menu .nav-link[aria-current="page"]{
+  color: var(--sb-brand);
+  background: color-mix(in oklab, var(--sb-brand) 9%, transparent);
+}
+.sidebar-body .sub-menu .nav-link.active::before,
+.sidebar-body .sub-menu .nav-link[aria-current="page"]::before{
+  border-color: var(--sb-brand);
+  background: var(--sb-brand);
+}
+
+/* Foco teclado accesible */
+.sidebar-body .nav-link:focus-visible{
+  outline: 3px solid var(--sb-brand);
+  outline-offset: 2px;
+}

@@ -1,0 +1,37 @@
+/* table-upgrade.css — base mínima */
+:root{
+  --cx-bg: #ffffff;
+  --cx-bg-2: #f8fafc;
+  --cx-text: #0f172a;
+  --cx-text-muted: #6b7280;
+  --cx-border: #e5e7eb;
+  --cx-brand: #742ACE;        /* ajusta a tu color de marca */
+  --cx-radius: 12px;
+  --cx-shadow: 0 8px 24px rgba(2,6,23,.08);
+}
+.cx-table-wrap{
+  overflow:auto; border:1px solid var(--cx-border);
+  border-radius: var(--cx-radius); background: var(--cx-bg);
+  box-shadow: var(--cx-shadow);
+}
+table.cx-table{ width:100%; border-collapse:separate; border-spacing:0;
+  color:var(--cx-text); background:var(--cx-bg); min-width:720px;
+  border-collapse: separate !important;
+  border-spacing: 0; /* mantiene el look compacto */ 
+}
+.cx-table th,.cx-table td{
+  padding:.75rem 1rem; border-bottom:1px solid var(--cx-border);
+  white-space:nowrap; vertical-align:middle;
+}
+/* utilidades */
+.cx-btn{ display:inline-flex; align-items:center; gap:.4rem;
+  border:1px solid var(--cx-border); background:var(--cx-bg-2);
+  padding:.5rem .8rem; border-radius:var(--cx-radius); font-weight:700; }
+.cx-btn--primary{ background:var(--cx-brand); color:#fff; border:0; }
+.cx-cell--right{ text-align:right; }
+.cx-cell--muted{ color:var(--cx-text-muted); }
+
+.cx-sticky-header thead th{
+  position: sticky; top: 0; z-index: 5; background: var(--cx-bg);
+  font-weight:700; text-align:left;
+}

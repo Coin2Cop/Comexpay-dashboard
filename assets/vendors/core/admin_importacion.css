@@ -1,0 +1,23 @@
+#aprobado{
+    border: none;
+    width: 40%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    border-radius: 20px;
+    margin-left: 30%;
+}
+#denegado{
+    border: none;
+    width: 40%;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    border-radius: 20px;
+    margin-left: 30%;
+}
+#botones{
+    padding-top: 30px;
+    padding-bottom: 20px;
+}

@@ -1,0 +1,24 @@
+.table thead th {
+    font-size: 14px !important;
+    color: #7d79a1 !important;
+}
+tbody, tfoot, tr, td, th {
+    border-color: #ebebeb !important;
+    border-width: 0.1px !important;
+}
+td, th {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+}
+.card-table{
+    padding: 0 !important;
+}
+.badge {
+    font-size: 12px !important;
+}
+.card {
+    box-shadow: 0 0 10px 0 rgba(197 144 255, 0.27) !important;
+    -webkit-box-shadow: 0 0 10px 0 rgb(197 144 255 / 27%) !important;
+    -moz-box-shadow: 0 0 10px 0 rgba(197 144 255, 0.27) !important;
+    -ms-box-shadow: 0 0 10px 0 rgba(197 144 255, 0.27) !important;
+}
